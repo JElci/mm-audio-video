@@ -2,7 +2,6 @@
 import audioManager from './audio-manager.js';
 import renderer from './renderer.js';
 
-let textArea;
 let midiAccess;
 let curVol;
 let volumeSlider;
@@ -12,7 +11,6 @@ export default class Player extends HTMLElement {
     constructor() {
         super();
         initMidi();
-        textArea = document.getElementById('result');        
 
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = this.template();
@@ -55,7 +53,7 @@ export default class Player extends HTMLElement {
         const html = String.raw;
 
         return html`
-        <style>
+        <!--<style>
         div {
             background-color: lightgray;
         }
@@ -68,16 +66,17 @@ export default class Player extends HTMLElement {
           width: 300;
           height: 500;
         }
-    </style>
-    <div>
+    </style>-->
+	<link href="./css/style.css" rel="stylesheet" type="text/css"/>
+    <div id="player_div">
         <div id="progress"></div>
         <button type="button" id="play">Play/Pause</button>
         <button type="button" id="volume">Stumm</button>
-        
+
     <div id="slidecontainer">
     <input type="range" min="0" max="127" value="50" class="slider" id="myRange" step="1"  >
     </div>
-        <canvas id="cnv" width="500" height="100"></canvas>
+        <canvas id="cnv" height="100" width="500"></canvas>
     </div>
         `;
     }
@@ -109,22 +108,22 @@ export default class Player extends HTMLElement {
 
         button.addEventListener('click', this.handleButtonClick.bind(this));
         leiser.addEventListener('click', this.changeAudioVolume.bind(this));
-        window.addEventListener('load', onDocLoaded, false);        
+        window.addEventListener('load', onDocLoaded, false);
     }
 
-    
+
     handleButtonClick() {
         if (this.audio.paused) {
             console.log(this.gainNode.gain.value);
             this.audio.play();
-            
+
 
         }
         else {
             this.audio.pause();
         }
     }
-    
+
 
     updateAudioTime() {
         const progress = this.audio.currentTime / this.audio.duration;
@@ -158,8 +157,6 @@ function initMidi() {
 }
 
 function midiSuccess(midi) {
-    textArea.value = 'Midi is working!';
-
     midiAccess = midi;
     var inputs = midi.inputs;
     for (var input of inputs.values()) {
@@ -168,7 +165,6 @@ function midiSuccess(midi) {
 }
 
 function midiFailure() {
-    textArea.value = 'Failure: Midi is not working!';
 }
 
 
@@ -180,7 +176,7 @@ function byId(e){
 
 function onDocLoaded()
 {
-    byId('mFileInput').addEventListener('change', onChosenFileChange, false);
+    //byId('mFileInput').addEventListener('onchange', onChosenFileChange, false);
 }
 
 function onChosenFileChange(evt)
@@ -209,7 +205,7 @@ function onSoundLoaded(evt)
 
 /*
 function handleFiles(event) {
-    document.getElementById("file").addEventListener("change", handleFiles, false);            
+    document.getElementById("file").addEventListener("change", handleFiles, false);
 	var files = event.target.files;
 	$("#audio").attr("src", URL.createObjectURL(files[0]));
 	document.getElementById("player").load();
@@ -230,15 +226,6 @@ function onMidiMessage(event) {
         curVol = value / 127;
 
     }
-
-    textArea.value += "\n" +
-        "New Event (on Channel: " + channel + ")==> Type: " + cmd +
-        ", Origin: " + btnID +
-        ", Value: " + value +
-        ", volumeval:" + volumeSlider.value;
-
-
-    textArea.scrollTop = textArea.scrollHeight;
 
 }
 customElements.define('x-player', Player);

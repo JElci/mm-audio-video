@@ -1,14 +1,148 @@
 *{
-    margin: 0;
+    margin: 0px;
     padding: 0;
     border: none;
     outline: none;
 }
 
 body{
+	margin: 20px;
 	font-family:arial;
 	font-size:13px;
-	line-height:1.5em;
+	line-height:3em;
 	color:#fff;
 	background: url(../images/bg.png);
 }
+
+.canvas {
+	height: 100px;
+	width: 500px;
+	color: green;
+}
+
+/** Chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type='range'] {
+      overflow: hidden;
+      width: 80px;
+	  margin-right: 20px;
+      -webkit-appearance: none;
+      background-color: #707b8a;
+	  
+    }
+	
+	  input[type='range'] {
+      overflow: hidden;
+      width: 80px;
+	  margin-right: 20px;
+      -webkit-appearance: none;
+      background-color: #707b8a;
+	  
+    }
+    
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 10px;
+      -webkit-appearance: none;
+      color: #13bba4;
+      margin-top: -1px;
+    }
+    
+    input[type='range']::-webkit-slider-thumb {
+      width: 10px;
+      -webkit-appearance: none;
+      height: 10px;
+      cursor: ew-resize;
+      background: #434343;
+      box-shadow: -80px 0 0 80px #00ffc0;
+    }
+
+}
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: #43e5f7; 
+}
+input[type="range"]::-moz-range-track {  
+  background-color: #9a905d;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #43e5f7; 
+}
+input[type="range"]::-ms-fill-upper {  
+  background-color: #9a905d;
+}
+
+
+button {
+	padding: 6px;
+	background-color: #FFB74D;
+	font-weight: bold;
+	color: #555;
+}
+
+x-player {
+	background-color: #FFF;
+}
+
+
+     video {
+          display : none;
+        }
+        .video {
+          position: absolute;
+          left: 0;
+
+        }
+        .video-filter-wrapper {
+		  width: 550px;
+          margin-top: 0%;
+
+        }
+        .canvas-video-wrapper {
+          position: relative;
+        }
+		
+		#video-three {
+			
+			
+		}
+		.vid_div_wrapper {
+		width: 500px;
+		border: 1px solid black;
+		overflow: hidden; /* add this to contain floated children */
+		}
+		.vid_div_first {
+				padding-right: 5px;
+				padding-left: 5px;
+			float:left;
+			border: 1px solid;
+			border-color: #88ffBA;
+		}
+		.vid_div_second {
+				padding-right: 5px;
+				padding-left: 5px;
+			border: 1px solid;
+			float: left;
+			border-color: #88ffBA;
+		}
+		
+		
+		.audio_video_wrapper {
+		width: 500px;
+		border: 1px solid black;
+		overflow: hidden; /* add this to contain floated children */
+		}
+		.audio_video_links {
+				padding-right: 5px;
+				padding-left: 5px;
+			float:left;
+
+		}
+		.audio_video_rechts {
+				padding-right: 5px;
+				padding-left: 5px;
+			float: left;
+
+		}
+	
+	

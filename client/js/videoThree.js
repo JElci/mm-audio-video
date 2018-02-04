@@ -1,4 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
+import  './CannyFilter.js';
 
 class VideoThree {
   constructor() {
@@ -50,7 +51,7 @@ class VideoThree {
 				textShape.fromGeometry( geometry );
 				text = new THREE.Mesh( textShape, matLite );
 				text.position.z = -15;
-        text.position.y = 10;
+        text.position.y = 3;
 				scene.add( text );
         var holeShapes = [];
 				for ( var i = 0; i < shapes.length; i ++ ) {
@@ -177,6 +178,12 @@ class VideoThree {
 			this.animationID = undefined;
 		}
   }
+
+  convertCanvasToImage(canvas) {
+	  var image = new Image();
+	  image.src = canvas.toDataURL("image/png");
+	  return image;
+  }
 }
 export default new VideoThree();
 
@@ -245,6 +252,10 @@ var Filter = {
     return data;
   },
 
+  cannyFilter : function(imageData) {
+    return CannyJS.canny(imageData);
+  },
+
   getLowestColorValue : function(data , i) {
     let result = data[i];
 
@@ -271,9 +282,7 @@ var Filter = {
     return result;
   }
 }
-/**
- * source: https://github.com/hawksley/Threex.chromakey for Shader-program.
- */
+
 var ChromaKeyMaterial = function (texture, keyColor) {
   THREE.ShaderMaterial.call(this);
 

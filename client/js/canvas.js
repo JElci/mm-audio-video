@@ -24,6 +24,7 @@ export default class Canvas extends HTMLElement {
         return html`
             <style>
               cnv {
+				
                 width: ${this.width};
                 height:${this.height};
               }
@@ -34,7 +35,7 @@ export default class Canvas extends HTMLElement {
 
     update () {
       this.ctx.clearRect(0,0,this.width,this.height);
-      this.ctx.fillStyle = 'green';
+      this.ctx.fillStyle = 'blue';
       this.ctx.fillRect(10, 10, 100, 100);
     }
 }
