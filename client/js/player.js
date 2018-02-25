@@ -1,16 +1,23 @@
 // Instances
 import audioManager from './audio-manager.js';
+import MIDI from './midi-controller.js';
 import renderer from './renderer.js';
 
-let midiAccess;
 let curVol;
 let volumeSlider;
 let gainage;
 
+let MIDIObject = new MIDI();
+
 export default class Player extends HTMLElement {
     constructor() {
         super();
-        initMidi();
+
+        this.setMIDIUnits();
+
+        if (navigator.requestMIDIAccess) {
+          navigator.requestMIDIAccess().then(onMIDISuccess , onMIDIFailure);
+        }
 
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = this.template();
@@ -50,35 +57,19 @@ export default class Player extends HTMLElement {
     }
 
     template() {
-        const html = String.raw;
-
-        return html`
-        <!--<style>
-        div {
-            background-color: lightgray;
-        }
-        #progress {
-            background-color: gray;
-            width: 0%;
-            height: 22px;
-        }
-        cnv {
-          width: 300;
-          height: 500;
-        }
-    </style>-->
-	<link href="./css/style.css" rel="stylesheet" type="text/css"/>
-    <div id="player_div">
-        <div id="progress"></div>
-        <button type="button" id="play">Play/Pause</button>
-        <button type="button" id="volume">Stumm</button>
-
-    <div id="slidecontainer">
-    <input type="range" min="0" max="127" value="50" class="slider" id="myRange" step="1"  >
-    </div>
-        <canvas id="cnv" height="100" width="500"></canvas>
-    </div>
-        `;
+      const html = String.raw;
+      return html`
+	      <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+        <div id="player_div">
+          <div id="progress"></div>
+          <button type="button" id="play">Play/Pause</button>
+          <button type="button" id="volume">Stumm</button>
+          <div id="slidecontainer">
+            <input type="range" min="0" max="127" value="50" class="slider" id="myRange" step="1"  >
+          </div>
+          <canvas id="cnv" height="100" width="500"></canvas>
+        </div>
+      `;
     }
 
     update() {
@@ -96,6 +87,10 @@ export default class Player extends HTMLElement {
 
             x += barWidth + 1;
         }
+    }
+
+    setMIDIUnits() {
+      MIDIObject.createUnit(48 , "Volume1");
     }
 
     connectedCallback() {
@@ -141,38 +136,33 @@ export default class Player extends HTMLElement {
             volumeSlider.value = curVol * 127;
         }
     }
-
 }
 
+function onMIDISuccess(midi) {
+  console.log("MIDI works!");
 
-function initMidi() {
-    if (navigator.requestMIDIAccess) {
-        navigator.requestMIDIAccess().then(
-            midiSuccess,
-            midiFailure
-        );
-    } else {
-        midiFailure();
-    }
+  let access = midi;
+  let inputs = midi.inputs;
+
+  for (var input of inputs.values()) {
+    input.onmidimessage = MIDIMessage;
+  }
 }
 
-function midiSuccess(midi) {
-    midiAccess = midi;
-    var inputs = midi.inputs;
-    for (var input of inputs.values()) {
-        input.onmidimessage = onMidiMessage;
-    }
+function onMIDIFailure(midi) {
 }
 
-function midiFailure() {
+function MIDIMessage(event) {
+  let cmd = event.data[0] >> 4;
+  let channel = event.data[0] & 0xf;
+  let btnID = event.data[1];
+  let value = event.data[2];
+
+  MIDIObject.setValueByUnitID(btnID , value);
+
+  console.log("New Event:\nChannel: " + channel + "\nType: " + cmd + "\nButtonID: " + btnID + "\nValue: " + value + "\n");
+  console.log("Unit:\nID: " + MIDIObject.getUnitID("Volume1") + "\nValue: " + MIDIObject.getValueByUnitID(48) + "\n");
 }
-
-
-function byId(e){
-    return document.getElementById(e);
-}
-
-//window.addEventListener('load', onDocLoaded, false);
 
 function onDocLoaded()
 {
@@ -201,20 +191,6 @@ function onSoundLoaded(evt)
     byId('sound').audio.play();
 }
 
-
-
-/*
-function handleFiles(event) {
-    document.getElementById("file").addEventListener("change", handleFiles, false);
-	var files = event.target.files;
-	$("#audio").attr("src", URL.createObjectURL(files[0]));
-	document.getElementById("player").load();
-    document.getElementById("player").audio.play();
-}
-*/
-
-
-
 function onMidiMessage(event) {
     let cmd = event.data[0] >> 4;
     let channel = event.data[0] & 0xf;
@@ -226,6 +202,6 @@ function onMidiMessage(event) {
         curVol = value / 127;
 
     }
-
 }
+
 customElements.define('x-player', Player);
