@@ -1,4 +1,4 @@
-import Player from './player.js';
+import Player from './audio-player.js';
 import ParticleSystem from './particle-system.js';
 import audioManager from './audio-manager.js';
 import VideoPlayer from './video-player.js';
@@ -62,9 +62,7 @@ export default class App extends HTMLElement {
 			      </div>
 			      <div class="audio_video_rechts">
               <h2>Player 1</h2>
-              <x-player id="sound" controls></x-player>
-              <input type="file" id="mFileInput"/>
-              <x-canvas width="400" height="400"></x-canvas>
+              <x-player id="sound" url="./audio/dj_korx1.mp3" controls></x-player>
 			      </div>
 		      </div>
 	      </div>
