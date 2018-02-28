@@ -7,6 +7,10 @@ let gainage;
 
 let MIDIObject = new MIDI();
 
+if (navigator.requestMIDIAccess) {
+  navigator.requestMIDIAccess().then(onMIDISuccess , onMIDIFailure);
+}
+
 export default class Player extends HTMLElement {
   constructor() {
     super();
@@ -17,6 +21,9 @@ export default class Player extends HTMLElement {
     const url = this.getAttribute('url');
     this.audio = new Audio(url);
 
+    this.midiIDVolume = parseInt(this.getAttribute("midi-id-volume"));
+    this.midiIDPlayBack = parseInt(this.getAttribute("midi-id-playback"));
+    this.playerID = this.getAttribute("player-id");
 
     const cnvEl = this.shadowRoot.querySelector("#cnv");
     this.cnvCtx = cnvEl.getContext("2d");
@@ -25,9 +32,7 @@ export default class Player extends HTMLElement {
 
     this.setMIDIUnits();
 
-    if (navigator.requestMIDIAccess) {
-      navigator.requestMIDIAccess().then(onMIDISuccess , onMIDIFailure);
-    }
+
 
     renderer.addRenderTask(this.updateAudioTime.bind(this));
     renderer.addRenderTask(this.update.bind(this));
@@ -53,25 +58,28 @@ export default class Player extends HTMLElement {
     const html = String.raw;
     return html`
 	    <link href="./css/style.css" rel="stylesheet" type="text/css"/>
-      <div id="player_div">
-        <div id="audio-progress"></div>
+      <div id="audio-player-wrapper">
+        <div class="audio-progress-wrapper">
+          <div id="audio-progress"></div>
+        </div>
         <button type="button" id="play">Play/Pause</button>
         <button type="button" id="volume">Stumm</button>
         <div id="slidecontainer">
           <input type="range" min="0" max="127" value="50" class="slider" id="volume-range" step="1"  >
         </div>
-        <canvas id="cnv" height="100" width="500"></canvas>
+        <canvas id="cnv" height="100" width="300"></canvas>
       </div>
     `;
   }
 
   update() {
-    let volume = MIDIObject.getValueByUnitID(48);
+    let volume = MIDIObject.getValueByUnitName("Volume-" + this.playerID);
     this.volumeRange.value = volume;
     this.changeAudioVolume(volume);
+    this.changePlaybackRate(MIDIObject.getValueByUnitName("PlayBackRate-" + this.playerID));
 
     this.analyser.getByteTimeDomainData(this.dataArray);
-    this.cnvCtx.clearRect(0, 0, 500, 100);
+    this.cnvCtx.clearRect(0, 0, 300, 100);
 
     let barWidth = (500 / this.bufferLength) * 2.5;
     let barHeight;
@@ -85,7 +93,9 @@ export default class Player extends HTMLElement {
   }
 
   setMIDIUnits() {
-    MIDIObject.createUnit(48 , "Volume1");
+    MIDIObject.createUnit(this.midiIDVolume , "Volume-" + this.playerID);
+    MIDIObject.createUnit(this.midiIDPlayBack , "PlayBackRate-" + this.playerID);
+    MIDIObject.setValueByUnitID(this.midiIdDPlayBack , 63.5);
   }
 
   connectedCallback() {
@@ -119,7 +129,17 @@ export default class Player extends HTMLElement {
   changeAudioVolume(value) {
     this.audio.volume = (value / 127);
   }
+
+  changePlaybackRate(speed) {
+    if(speed < 5) {
+      this.audio.playbackRate = 0.1;
+    }
+    else {
+      this.audio.playbackRate = speed / 64;
+    }
+  }
 }
+customElements.define('x-player', Player);
 
 function onMIDISuccess(midi) {
   console.log("MIDI works!");
@@ -144,6 +164,5 @@ function MIDIMessage(event) {
   MIDIObject.setValueByUnitID(btnID , value);
 
   console.log("New Event:\nChannel: " + channel + "\nType: " + cmd + "\nButtonID: " + btnID + "\nValue: " + value + "\n");
-  console.log("Unit:\nID: " + MIDIObject.getUnitID("Volume1") + "\nValue: " + MIDIObject.getValueByUnitID(48) + "\n");
+  console.log("Unit:\nID: " + MIDIObject.getUnitID("Volume-0") + "\nValue: " + MIDIObject.getValueByUnitID(48) + "\n");
 }
-customElements.define('x-player', Player);

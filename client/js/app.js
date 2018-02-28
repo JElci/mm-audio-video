@@ -62,7 +62,11 @@ export default class App extends HTMLElement {
 			      </div>
 			      <div class="audio_video_rechts">
               <h2>Player 1</h2>
-              <x-player id="sound" url="./audio/dj_korx1.mp3" controls></x-player>
+              <x-player id="sound" url="./audio/dj_korx1.mp3" midi-id-volume="48" midi-id-playback="49" player-id="0"></x-player>
+			      </div>
+            <div class="audio_video_rechts">
+              <h2>Player 2</h2>
+              <x-player id="sound" url="./audio/popof.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
 			      </div>
 		      </div>
 	      </div>
@@ -74,5 +78,4 @@ export default class App extends HTMLElement {
     `;
   }
 }
-
 customElements.define('x-app', App);
