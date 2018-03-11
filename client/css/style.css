@@ -41,40 +41,28 @@ x-player {
 
 /** Chrome*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-    input[type='range'] {
-      overflow: hidden;
-      width: 80px;
+  input[type='range'] {
+    overflow: hidden;
 	  margin-right: 20px;
-      -webkit-appearance: none;
-      background-color: #707b8a;
-
-    }
-
-	  input[type='range'] {
-      overflow: hidden;
-      width: 80px;
-	  margin-right: 20px;
-      -webkit-appearance: none;
-      background-color: #707b8a;
-
-    }
-
-    input[type='range']::-webkit-slider-runnable-track {
-      height: 10px;
-      -webkit-appearance: none;
-      color: #13bba4;
-      margin-top: -1px;
-    }
-
-    input[type='range']::-webkit-slider-thumb {
-      width: 10px;
-      -webkit-appearance: none;
-      height: 10px;
-      cursor: ew-resize;
-      background: #434343;
-      box-shadow: -80px 0 0 80px #00ffc0;
-    }
-
+    -webkit-appearance: none;
+    background-color: #707b8a;
+  }
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    width: 10px;
+    -webkit-appearance: none;
+    height: 25px;
+    margin-top: -5px;
+    margin-left: 5px;
+    cursor: ew-resize;
+    background: #434343;
+    box-shadow: -800px 0 0 800px #00ffc0;
+  }
 }
 /** FF*/
 input[type="range"]::-moz-range-progress {
@@ -145,4 +133,23 @@ video {
 	padding-right: 5px;
 	padding-left: 5px;
 	float: left;
+}
+.audio-buttons {
+  width: 100%;
+}
+.audio-buttons > p {
+  text-align: center;
+}
+.slidecontainer > p {
+  text-align: center;
+  width: 45%;
+  margin: 0 2.5% 0 2.5%;
+  float: left;
+}
+.slidecontainer input {
+  padding: 5px;
+  width: 100%;
+}
+.audio-track-headline {
+  text-align: center;
 }
