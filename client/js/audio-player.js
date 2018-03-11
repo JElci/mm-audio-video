@@ -2,7 +2,6 @@ import audioManager from './audio-manager.js';
 import MIDI from './midi-controller.js';
 import renderer from './renderer.js';
 
-let volumeSlider;
 let gainage;
 
 let MIDIObject = new MIDI();
@@ -29,6 +28,7 @@ export default class Player extends HTMLElement {
     this.cnvCtx = cnvEl.getContext("2d");
 
     this.volumeRange = this.shadowRoot.querySelector("#volume-range");
+    this.playbackRange = this.shadowRoot.querySelector("#playback-range");
 
     this.setMIDIUnits();
 
@@ -49,7 +49,6 @@ export default class Player extends HTMLElement {
     this.gainNode.connect(this.analyser);
     this.analyser.connect(audioManager.ctx.destination);
 
-    volumeSlider = this.shadowRoot.querySelector('#myRange');
     gainage = this.gainNode;
 
   }
@@ -62,10 +61,21 @@ export default class Player extends HTMLElement {
         <div class="audio-progress-wrapper">
           <div id="audio-progress"></div>
         </div>
-        <button type="button" id="play">Play/Pause</button>
-        <button type="button" id="volume">Stumm</button>
-        <div id="slidecontainer">
-          <input type="range" min="0" max="127" value="50" class="slider" id="volume-range" step="1"  >
+        <div class="audio-buttons">
+          <p>
+            <button type="button" id="play">Play/Pause</button>
+            <button type="button" id="volume">Stumm</button>
+          </p>
+        </div>
+        <div class="slidecontainer">
+          <p>
+            <span>Volume</span>
+            <input type="range" min="0" max="127" value="50" class="slider" id="volume-range" step="1">
+          </p>
+          <p>
+            <span>PlaybackRate</span>
+            <input type="range" min="0" max="127" value="50" class="slider" id="playback-range" step="1">
+          </p>
         </div>
         <canvas id="cnv" height="100" width="300"></canvas>
       </div>
@@ -74,9 +84,11 @@ export default class Player extends HTMLElement {
 
   update() {
     let volume = MIDIObject.getValueByUnitName("Volume-" + this.playerID);
+    let playback = MIDIObject.getValueByUnitName("PlayBackRate-" + this.playerID);
     this.volumeRange.value = volume;
+    this.playbackRange.value = playback;
     this.changeAudioVolume(volume);
-    this.changePlaybackRate(MIDIObject.getValueByUnitName("PlayBackRate-" + this.playerID));
+    this.changePlaybackRate(playback);
 
     this.analyser.getByteTimeDomainData(this.dataArray);
     this.cnvCtx.clearRect(0, 0, 300, 100);

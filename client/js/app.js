@@ -61,12 +61,13 @@ export default class App extends HTMLElement {
 			        <input class="horizontal-slider" id="crossfade" type="range" min="0" max="127" value="64">
 			      </div>
 			      <div class="audio_video_rechts">
-              <h2>Player 1</h2>
+              <h2 class="audio-track-headline">Track 1</h2>
               <x-player id="sound" url="./audio/dj_korx1.mp3" midi-id-volume="48" midi-id-playback="49" player-id="0"></x-player>
 			      </div>
             <div class="audio_video_rechts">
-              <h2>Player 2</h2>
-              <x-player id="sound" url="./audio/popof.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
+              <h2 class="audio-track-headline">Track 2</h2>
+              <!-- <x-player id="sound" url="./audio/fly-barBoris-Brejcha.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player> -->
+              <x-player id="sound" url="./audio/Boris-Brejcha.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
 			      </div>
 		      </div>
 	      </div>
