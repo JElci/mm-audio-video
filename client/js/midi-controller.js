@@ -44,6 +44,14 @@ export default class MidiController {
     }
   }
 
+  getValueByUnitName(name) {
+    for(var unit of this.units) {
+      if(unit.name === name) {
+        return unit.value;
+      }
+    }
+  }
+
   setValueByUnitID(id , value) {
     for(var unit of this.units) {
       if(unit.id === id) {
