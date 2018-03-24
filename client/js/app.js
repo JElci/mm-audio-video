@@ -67,13 +67,12 @@ export default class App extends HTMLElement {
             <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 2</h2>
               <!-- <x-player id="sound" url="./audio/fly-barBoris-Brejcha.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player> -->
-              <x-player id="sound" url="./audio/Boris-Brejcha.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
+              <x-player id="sound" url="./audio/fly-bar.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
 			      </div>
 		      </div>
 	      </div>
         <div id="player-wrapper">
-          <!--  <x-video-player video1="http://localhost:300/video/B01.ogv" video2="http://localhost:300/video/FX03.ogv" controls="left"></x-video-player>
-          <x-video-player video1="./media/B01.ogv" video2="./media/FX03.ogv" controls="left"></x-video-player>-->
+          <x-video-player video="./media/FX03.ogv" controls="left"></x-video-player>-->
         </div>
       </div>
     `;

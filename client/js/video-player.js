@@ -1,13 +1,15 @@
 import VideoThree from "./videoThree.js"
+import {getAudioCTX , getAudioCanvas} from "./audio-player.js";
 
 export default class VideoPlayer extends HTMLElement {
   constructor() {
     super();
-    const video1 = this.getAttribute('video1');
-    const video2 = this.getAttribute("video2");
+
+    let createdVideos = false;
+    const video1 = this.getAttribute('video');
     const controls = this.getAttribute("controls");
     const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.innerHTML = this.template(video1 , video2);
+    shadowRoot.innerHTML = this.template(video1);
 
     let videofilter = {
       grayscale : this.shadowRoot.querySelector("#filter-grayscale"),
@@ -31,7 +33,7 @@ export default class VideoPlayer extends HTMLElement {
 
     let videoPlane = {
       x : 150,
-      y : 100
+      y : 110
     }
 
     let videoThreeSize = {
@@ -44,26 +46,27 @@ export default class VideoPlayer extends HTMLElement {
       z : 0
     }
 
-    this.video1 = this.shadowRoot.querySelector("#video1-file");
+    this.video1 = this.shadowRoot.querySelector("#video-file");
     this.video1.setAttribute('crossOrigin', '');
-    this.video2 = this.shadowRoot.querySelector("#video2-file");
-    this.video2.setAttribute('crossOrigin', '');
+    this.video2 = getAudioCanvas();
 
     this.videoThreeContainer = this.shadowRoot.querySelector("#video-three");
     VideoThree.init(this.videoThreeContainer , cameraPos , videoThreeSize);
 
-    this.video2.addEventListener('canplaythrough', () => {
-      this.video1.addEventListener('canplaythrough', () => {
-        VideoThree.addVideo(this.video1 , videofilter , cameraPosVideo , videoPlane);
-        VideoThree.addVideoWithChromaKey(this.video2 , videofilter , 0x0000 , cameraPosVideo , videoPlane);
-      });
+    this.video1.addEventListener('canplaythrough', () => {
+      if(!createdVideos) {
+        VideoThree.addVideoWithChromaKey(this.video1 , videofilter , 0x0000 , cameraPosVideo , videoPlane);
+        VideoThree.addAudioAsVideo(this.video2 , cameraPosVideo , videoPlane);
+        createdVideos = true;
+      }
+
     });
 
-    VideoThree.addText("VideoPlayer" , 0x006699 , 10 , textPos);
+    VideoThree.addText("VideoPlayer" , 0x000000 , 10 , textPos);
     this.shadowRoot.querySelector(".video-filter-wrapper").style.cssFloat = controls;
   }
 
-  template(video1 , video2) {
+  template(video) {
     const html = String.raw;
     return html`
 
@@ -71,8 +74,7 @@ export default class VideoPlayer extends HTMLElement {
 
       <div id="video-three"></div>
       <div class="canvas-video-wrapper">
-        <video class="video" id="video1-file" src="${video1}" autoplay loop muted></video>
-        <video class="video" id="video2-file" src="${video2}" autoplay loop muted></video>
+        <video class="video" id="video-file" src="${video}" controls autoplay loop muted></video>
       </div>
       <div id="video-three"></div>
       <div class="video-filter-wrapper">
