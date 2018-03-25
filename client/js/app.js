@@ -3,7 +3,9 @@ import Synth from './synth.js';
 import audioManager from './audio-manager.js';
 import VideoPlayer from './video-player.js';
 import MIDI from './midi-controller.js';
+import renderer from './renderer.js';
 
+let MIDIObject = new MIDI();
 
 export default class App extends HTMLElement {
   constructor() {
@@ -11,6 +13,107 @@ export default class App extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = this.template();
+
+    this.rs1 = this.shadowRoot.querySelector("#rs1");
+
+    this.rs = {
+    rs1 : {
+        id : 1,
+        name : "RotarySwitch1"
+        },
+
+    rs2 : {
+        id : 1,
+        name : "RotarySwitch2"
+        },
+
+    rs3 : {
+        id : 1,
+        name : "RotarySwitch3"
+        },
+
+    rs4 : {
+        id : 1,
+        name : "RotarySwitch4"
+        },
+
+    rs5 : {
+        id : 1,
+        name : "RotarySwitch5"
+        },
+
+    rs6 : {
+        id : 1,
+        name : "RotarySwitch6"
+        },
+
+    rs7 : {
+        id : 1,
+        name : "RotarySwitch7"
+        },
+
+    rs8 : {
+        id : 1,
+        name : "RotarySwitch8"
+        },
+
+    rs9 : {
+        id : 1,
+        name : "RotarySwitch9"
+        },
+
+    rs10 : {
+        id : 1,
+        name : "RotarySwitch10"
+        },
+
+    rs11 : {
+        id : 1,
+        name : "RotarySwitch11"
+        },
+
+    rs12 : {
+        id : 1,
+        name : "RotarySwitch12"
+        },
+
+    rs13 : {
+        id : 1,
+        name : "RotarySwitch13"
+        },
+
+    rs14 : {
+        id : 1,
+        name : "RotarySwitch14"
+        },
+
+    rs15 : {
+        id : 1,
+        name : "RotarySwitch15"
+        },
+
+    rs16 : {
+        id : 1,
+        name : "RotarySwitch16"
+        }
+    };
+    this.setMIDIUnits();
+    renderer.addRenderTask(this.update.bind(this));
+  }
+
+  setMIDIUnits() {
+    MIDIObject.createUnit(this.rs.rs1.id , this.rs.rs1.name);
+    MIDIObject.setValueByUnitID(this.rs.rs1.id , 64);
+  }
+
+  update() {
+    let rs1 = MIDIObject.getValueByUnitName(this.rs.rs1.name);
+    this.rs1.value = rs1;
+    this.changeRS1(rs1);
+  }
+
+  changeRS1(rs1) {
+
   }
 
   template() {
@@ -23,28 +126,28 @@ export default class App extends HTMLElement {
 			      <h1 class="headline">Audioplayer</h1>
 				    <h2>MIDI Controls</h2>
 				    <div>
-				      <input id="rotaryswitch1" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch2" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch3" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch4" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs1" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs2" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs3" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs4" class="demo" type="range" min="0" max="127" value="64">
 			      </div>
 			      <div>
-				      <input id="rotaryswitch5" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch6" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch7" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch8" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs5" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs6" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs7" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs8" class="demo" type="range" min="0" max="127" value="64">
 			      </div>
 			      <div>
-				      <input id="rotaryswitch9" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch10" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch11" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch12" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs9" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs10" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs11" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs12" class="demo" type="range" min="0" max="127" value="64">
 			      </div>
 			      <div>
-				      <input id="rotaryswitch13" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch14" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch15" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rotaryswitch16" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs13" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs14" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs15" class="demo" type="range" min="0" max="127" value="64">
+				      <input id="rs16" class="demo" type="range" min="0" max="127" value="64">
 			      </div>
 			      <h2>Cue (Play)</h2>
 				    <button id="button48">Cue(Play)</button>
