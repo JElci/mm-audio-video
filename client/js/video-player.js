@@ -1,5 +1,5 @@
 import VideoThree from "./videoThree.js"
-import {getAudioCTX , getAudioCanvas} from "./audio-player.js";
+import {getAudioCanvas} from "./audio-player.js";
 
 export default class VideoPlayer extends HTMLElement {
   constructor() {

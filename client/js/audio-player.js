@@ -19,7 +19,7 @@ export default class Player extends HTMLElement {
 
     const url = this.getAttribute('url');
     this.audio = new Audio(url);
-
+    //midi-mapping
     this.midiIDVolume = parseInt(this.getAttribute("midi-id-volume"));
     this.midiIDPlayBack = parseInt(this.getAttribute("midi-id-playback"));
     this.playerID = this.getAttribute("player-id");
@@ -86,12 +86,16 @@ export default class Player extends HTMLElement {
   }
 
   update() {
+
     let volume = MIDIObject.getValueByUnitName("Volume-" + this.playerID);
     let playback = MIDIObject.getValueByUnitName("PlayBackRate-" + this.playerID);
+
     this.volumeRange.value = volume;
     this.playbackRange.value = playback;
+
     this.changeAudioVolume(volume);
     this.changePlaybackRate(playback);
+
 
     this.analyser.getByteTimeDomainData(this.dataArray);
     this.cnvCtx.clearRect(0, 0, 300, 100);
@@ -138,9 +142,10 @@ export default class Player extends HTMLElement {
   }
 
   setMIDIUnits() {
-    MIDIObject.createUnit(this.midiIDVolume , "Volume-" + this.playerID);
     MIDIObject.createUnit(this.midiIDPlayBack , "PlayBackRate-" + this.playerID);
     MIDIObject.setValueByUnitID(this.midiIDPlayBack , 64);
+
+    MIDIObject.createUnit(this.midiIDVolume , "Volume-" + this.playerID);
     MIDIObject.setValueByUnitID(this.midiIDVolume , 127);
   }
 
@@ -184,6 +189,9 @@ export default class Player extends HTMLElement {
       this.audio.playbackRate = speed / 64;
     }
   }
+
+
+
 }
 customElements.define('x-player', Player);
 
@@ -216,4 +224,9 @@ function MIDIMessage(event) {
 function getAudioCanvas() {
   return audioCanvas;
 }
-export {getAudioCanvas};
+
+function getMIDIController() {
+  return MIDIObject;
+}
+
+export {getAudioCanvas, getMIDIController};
