@@ -18,82 +18,82 @@ export default class App extends HTMLElement {
 
     this.rs = {
     rs1 : {
-        id : 1,
+        id : 6,
         name : "RotarySwitch1"
         },
 
     rs2 : {
-        id : 1,
+        id : 7,
         name : "RotarySwitch2"
         },
 
     rs3 : {
-        id : 1,
+        id : 8,
         name : "RotarySwitch3"
         },
 
     rs4 : {
-        id : 1,
+        id : 9,
         name : "RotarySwitch4"
         },
 
     rs5 : {
-        id : 1,
+        id : 10,
         name : "RotarySwitch5"
         },
 
     rs6 : {
-        id : 1,
+        id : 11,
         name : "RotarySwitch6"
         },
 
     rs7 : {
-        id : 1,
+        id : 12,
         name : "RotarySwitch7"
         },
 
     rs8 : {
-        id : 1,
+        id : 13,
         name : "RotarySwitch8"
         },
 
     rs9 : {
-        id : 1,
+        id : 14,
         name : "RotarySwitch9"
         },
 
     rs10 : {
-        id : 1,
+        id : 15,
         name : "RotarySwitch10"
         },
 
     rs11 : {
-        id : 1,
+        id : 16,
         name : "RotarySwitch11"
         },
 
     rs12 : {
-        id : 1,
+        id : 17,
         name : "RotarySwitch12"
         },
 
     rs13 : {
-        id : 1,
+        id : 18,
         name : "RotarySwitch13"
         },
 
     rs14 : {
-        id : 1,
+        id : 19,
         name : "RotarySwitch14"
         },
 
     rs15 : {
-        id : 1,
+        id : 20,
         name : "RotarySwitch15"
         },
 
     rs16 : {
-        id : 1,
+        id : 21,
         name : "RotarySwitch16"
         }
     };
@@ -119,71 +119,71 @@ export default class App extends HTMLElement {
   template() {
     const html = String.raw;
     return html`
-		  <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+          <link href="./css/style.css" rel="stylesheet" type="text/css"/>
       <div>
-		    <div class="audio_video_wrap">
-			    <div class="audio_video_links">
-			      <h1 class="headline">Audioplayer</h1>
-				    <h2>MIDI Controls</h2>
-				    <div>
-				      <input id="rs1" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs2" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs3" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs4" class="demo" type="range" min="0" max="127" value="64">
-			      </div>
-			      <div>
-				      <input id="rs5" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs6" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs7" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs8" class="demo" type="range" min="0" max="127" value="64">
-			      </div>
-			      <div>
-				      <input id="rs9" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs10" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs11" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs12" class="demo" type="range" min="0" max="127" value="64">
-			      </div>
-			      <div>
-				      <input id="rs13" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs14" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs15" class="demo" type="range" min="0" max="127" value="64">
-				      <input id="rs16" class="demo" type="range" min="0" max="127" value="64">
-			      </div>
-			      <h2>Cue (Play)</h2>
-				    <button id="button48">Cue(Play)</button>
-				    <button id="button49">Cue(Play)</button>
-				    <button id="button50">Cue(Play)</button>
-				    <button id="button51">Cue(Play)</button>
-			      <br>
-			      <h2>Gain</h2>
-			      <input class="vertical-slider" id="gain1" orient="vertical" type="range" min="0" max="127" value="127">
-			      <input class="vertical-slider" id="gain2" orient="vertical" type="range" min="0" max="127" value="127">
-			      <input class="vertical-slider" id="gain3" orient="vertical" type="range" min="0" max="127" value="127">
-			      <input class="vertical-slider" id="gain4" orient="vertical" type="range" min="0" max="127" value="127">
+            <div class="audio_video_wrap">
+                <div class="audio_video_links">
+                  <h1 class="headline">Audioplayer</h1>
+                    <h2>MIDI Controls</h2>
+                    <div>
+                      <input id="rs1" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs2" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs3" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs4" class="demo" type="range" min="0" max="127" value="64">
+                  </div>
+                  <div>
+                      <input id="rs5" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs6" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs7" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs8" class="demo" type="range" min="0" max="127" value="64">
+                  </div>
+                  <div>
+                      <input id="rs9" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs10" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs11" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs12" class="demo" type="range" min="0" max="127" value="64">
+                  </div>
+                  <div>
+                      <input id="rs13" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs14" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs15" class="demo" type="range" min="0" max="127" value="64">
+                      <input id="rs16" class="demo" type="range" min="0" max="127" value="64">
+                  </div>
+                  <h2>Cue (Play)</h2>
+                    <button id="button48">Cue(Play)</button>
+                    <button id="button49">Cue(Play)</button>
+                    <button id="button50">Cue(Play)</button>
+                    <button id="button51">Cue(Play)</button>
+                  <br>
+                  <h2>Gain</h2>
+                  <input class="vertical-slider" id="gain1" orient="vertical" type="range" min="0" max="127" value="127">
+                  <input class="vertical-slider" id="gain2" orient="vertical" type="range" min="0" max="127" value="127">
+                  <input class="vertical-slider" id="gain3" orient="vertical" type="range" min="0" max="127" value="127">
+                  <input class="vertical-slider" id="gain4" orient="vertical" type="range" min="0" max="127" value="127">
             <br>
-			      <h2>Crossfader</h2>
-			      <div id="crossfader">
-			        <input class="horizontal-slider" id="crossfade" type="range" min="0" max="127" value="64">
-			      </div>
-			      <div class="audio_video_rechts">
+                  <h2>Crossfader</h2>
+                  <div id="crossfader">
+                    <input class="horizontal-slider" id="crossfade" type="range" min="0" max="127" value="64">
+                  </div>
+                  <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 1</h2>
               <!-- Crossfader ID ändern! -->
-              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="48" midi-id-playback="49" midi-id-crossfader="55" player-id="0"></x-player>
-			      </div>
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="48" midi-id-playback="49" midi-id-crossfader="64" player-id="0"></x-player>
+                  </div>
             <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 2</h2>
-              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="50" midi-id-playback="51" midi-id-crossfader="55" player-id="1"></x-player>
-			      </div>
-		      </div>
-	      </div>
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="50" midi-id-playback="51" midi-id-crossfader="64" player-id="1"></x-player>
+                  </div>
+              </div>
+          </div>
         <div id="player-wrapper">
           <x-video-player video="http://127.0.0.3:8080/data/video/manifest.mpd" controls="left"></x-video-player>
         </div>
-		<!-- Synthesizer BEGIN -->
-		<div>
-			<x-synth></x-synth>
-		</div>
-		<!-- Synthesizer END -->
+        <!-- Synthesizer BEGIN -->
+        <div>
+            <x-synth></x-synth>
+        </div>
+        <!-- Synthesizer END -->
       </div>
     `;
   }
