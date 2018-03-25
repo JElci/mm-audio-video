@@ -3,7 +3,6 @@ import MIDI from './midi-controller.js';
 import renderer from './renderer.js';
 
 let gainage;
-let audio1Ctx;
 let audioCanvas;
 let MIDIObject = new MIDI();
 
@@ -24,14 +23,12 @@ export default class Player extends HTMLElement {
     this.midiIDVolume = parseInt(this.getAttribute("midi-id-volume"));
     this.midiIDPlayBack = parseInt(this.getAttribute("midi-id-playback"));
     this.playerID = this.getAttribute("player-id");
+    this.drawCirclesById = "1";
 
     const cnvEl = this.shadowRoot.querySelector("#cnv");
-
     this.cnvCtx = cnvEl.getContext("2d");
 
-    this.audioCircles = this.shadowRoot.querySelector("#cnv2");
-    audioCanvas = this.audioCircles;
-    this.audioCirclesCtx = this.audioCircles.getContext("2d");
+    this.saveAudioCirclesCanvas(this.drawCirclesById);
 
     this.volumeRange = this.shadowRoot.querySelector("#volume-range");
     this.playbackRange = this.shadowRoot.querySelector("#playback-range");
@@ -47,10 +44,6 @@ export default class Player extends HTMLElement {
     this.analyser.fftSize = 256;
     this.bufferLength = this.analyser.frequencyBinCount;
     this.dataArray = new Uint8Array(this.bufferLength);
-
-    if(this.playerID === "1") {
-      audio1Ctx = this.dataArray;
-    }
 
     this.gainNode = audioManager.ctx.createGain();
     this.source.connect(this.gainNode);
@@ -87,7 +80,7 @@ export default class Player extends HTMLElement {
           </p>
         </div>
         <canvas id="cnv" height="100" width="300"></canvas>
-        <canvas style="display: none;" id="cnv2" height="300" width="300"></canvas>
+        <canvas id="cnv2" style="display: none;" height="300" width="300"></canvas>
       </div>
     `;
   }
@@ -112,21 +105,35 @@ export default class Player extends HTMLElement {
       this.cnvCtx.fillRect(x, 100 - barHeight / 2, barWidth, barHeight);
       x += barWidth + 1;
     }
+    this.drawAudioCirlces(this.drawCirclesById);
 
-    this.audioCirclesCtx.clearRect(0, 0, 300, 300);
-    var centerX = this.audioCircles.width / 2;
-    var centerY = this.audioCircles.height / 2;
-    this.audioCirclesCtx.shadowBlur = 20;
-    this.audioCirclesCtx.shadowColor = "black";
-    this.audioCirclesCtx.fillStyle = "rgba(0 , 0 , 0 , 0.0)";
-    this.audioCirclesCtx.fill();
+  }
 
-    for(let i = 0 ; i < this.bufferLength / 4 ; i++) {
-      this.audioCirclesCtx.beginPath();
-      this.audioCirclesCtx.arc(centerX, centerY, i * 10 + 1 , 0, 2 * Math.PI, false);
-      this.audioCirclesCtx.lineWidth = (this.dataArray[i] / 10);
-      this.audioCirclesCtx.strokeStyle = "rgb(" + (i * 10 + 10)  +" , 0 , 0)";
-      this.audioCirclesCtx.stroke();
+  saveAudioCirclesCanvas(playerId) {
+    if(playerId === this.playerID) {
+      this.audioCircles = this.shadowRoot.querySelector("#cnv2");
+      audioCanvas = this.audioCircles;
+      this.audioCirclesCtx = this.audioCircles.getContext("2d");
+    }
+  }
+
+  drawAudioCirlces(playerId) {
+    if(playerId === this.playerID) {
+      this.audioCirclesCtx.clearRect(0, 0, 300, 300);
+      var centerX = this.audioCircles.width / 2;
+      var centerY = this.audioCircles.height / 2;
+      this.audioCirclesCtx.shadowBlur = 20;
+      this.audioCirclesCtx.shadowColor = "black";
+      this.audioCirclesCtx.fillStyle = "rgba(0 , 0 , 0 , 0.0)";
+      this.audioCirclesCtx.fill();
+
+      for(let i = 0 ; i < this.bufferLength / 4 ; i++) {
+        this.audioCirclesCtx.beginPath();
+        this.audioCirclesCtx.arc(centerX, centerY, i * 10 + 1 , 0, 2 * Math.PI, false);
+        this.audioCirclesCtx.lineWidth = (this.dataArray[i] / 10);
+        this.audioCirclesCtx.strokeStyle = "rgb(" + (i * 10 + 10)  +" , 0 , 0)";
+        this.audioCirclesCtx.stroke();
+      }
     }
   }
 
@@ -206,10 +213,7 @@ function MIDIMessage(event) {
   console.log("Unit:\nID: " + MIDIObject.getUnitID("Volume-0") + "\nValue: " + MIDIObject.getValueByUnitID(48) + "\n");
 }
 
-function getAudioCTX() {
-  return audio1Ctx;
-}
 function getAudioCanvas() {
   return audioCanvas;
 }
-export {getAudioCTX , getAudioCanvas};
+export {getAudioCanvas};
