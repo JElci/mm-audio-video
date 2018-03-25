@@ -26,12 +26,22 @@ export default class Player extends HTMLElement {
       player.initialize(shadowRoot.querySelector("#audio-track"), urlAudio, true);
     })();
 
-    this.audio = new Audio(shadowRoot.querySelector("#audio-track").source);
+    //this.audio = new Audio(shadowRoot.querySelector("#audio-track").src);
+
+
     //midi-mapping
     this.midiIDVolume = parseInt(this.getAttribute("midi-id-volume"));
     this.midiIDPlayBack = parseInt(this.getAttribute("midi-id-playback"));
+    this.midiIDCrossfader = parseInt(this.getAttribute("midi-id-crossfader"));
     this.playerID = this.getAttribute("player-id");
     this.drawCirclesById = "1";
+
+    if(this.playerID === "0") {
+      this.audio = new Audio(audio1);
+    }
+    else {
+      this.audio = new Audio(audio2);
+    }
 
     const cnvEl = this.shadowRoot.querySelector("#cnv");
     this.cnvCtx = cnvEl.getContext("2d");
@@ -67,7 +77,7 @@ export default class Player extends HTMLElement {
     const html = String.raw;
     return html`
 	    <link href="./css/style.css" rel="stylesheet" type="text/css"/>
-      <audio id="audio-track"></audio>
+      <video id="audio-track" muted></video>
       <div id="audio-player-wrapper">
         <div class="audio-progress-wrapper">
           <div id="audio-progress"></div>
@@ -98,12 +108,14 @@ export default class Player extends HTMLElement {
 
     let volume = MIDIObject.getValueByUnitName("Volume-" + this.playerID);
     let playback = MIDIObject.getValueByUnitName("PlayBackRate-" + this.playerID);
+    let crossfader = MIDIObject.getValueByUnitName("CrossFader");
 
     this.volumeRange.value = volume;
     this.playbackRange.value = playback;
 
     this.changeAudioVolume(volume);
     this.changePlaybackRate(playback);
+    this.changeVolumeByCrossFader(crossfader);
 
 
     this.analyser.getByteTimeDomainData(this.dataArray);
@@ -156,6 +168,9 @@ export default class Player extends HTMLElement {
 
     MIDIObject.createUnit(this.midiIDVolume , "Volume-" + this.playerID);
     MIDIObject.setValueByUnitID(this.midiIDVolume , 127);
+
+    MIDIObject.createUnit(this.midiIDCrossfader , "CrossFader");
+    MIDIObject.setValueByUnitID(this.midiIDCrossfader , 127);
   }
 
   connectedCallback() {
@@ -184,6 +199,24 @@ export default class Player extends HTMLElement {
 
   muteAudioVolume() {
     this.audio.mute = true;
+  }
+
+  changeVolumeByCrossFader(crossFaderValue) {
+    if(crossFaderValue < 62) {
+      if(this.playerID === "1") {
+        this.audio.volume = (crossFaderValue / 64);
+        this.volumeRange.value = (((crossFaderValue / 2) / 64) - 1) * 127;
+      }
+    }
+    else if(crossFaderValue > 67) {
+      if(this.playerID === "0") {
+        this.audio.volume = (((crossFaderValue / 64) - 1) * -1) + 1;
+        this.volumeRange.value = (((crossFaderValue / 2) / 64) - 1) * 127;
+      }
+    }
+    else {
+      this.audio.volume = 1;
+    }
   }
 
   changeAudioVolume(value) {
@@ -233,5 +266,7 @@ function MIDIMessage(event) {
 function getAudioCanvas() {
   return audioCanvas;
 }
-
 export {getAudioCanvas};
+
+let audio1 = "../audio/dj_korx1.mp3";
+let audio2 = "../audio/fly-bar.mp3";

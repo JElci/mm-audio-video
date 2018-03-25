@@ -167,11 +167,12 @@ export default class App extends HTMLElement {
 			      </div>
 			      <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 1</h2>
-              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="48" midi-id-playback="49" player-id="0"></x-player>
+              <!-- Crossfader ID ändern! -->
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="48" midi-id-playback="49" midi-id-crossfader="55" player-id="0"></x-player>
 			      </div>
             <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 2</h2>
-              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="50" midi-id-playback="51" midi-id-crossfader="55" player-id="1"></x-player>
 			      </div>
 		      </div>
 	      </div>
