@@ -26,7 +26,7 @@ export default class Player extends HTMLElement {
       player.initialize(shadowRoot.querySelector("#audio-track"), urlAudio, true);
     })();
 
-    //this.audio = new Audio(shadowRoot.querySelector("#audio-track").src);
+    this.audio = new Audio(shadowRoot.querySelector("#audio-track").source);
 
 
     //midi-mapping
@@ -77,7 +77,9 @@ export default class Player extends HTMLElement {
     const html = String.raw;
     return html`
 	    <link href="./css/style.css" rel="stylesheet" type="text/css"/>
-      <video id="audio-track" muted></video>
+      <video id="audio-track" mutedaudio-bitrate="48000"  muted>
+        <param name="audioOnly" value="TRUE" valuetype="data"/>
+      </video>
       <div id="audio-player-wrapper">
         <div class="audio-progress-wrapper">
           <div id="audio-progress"></div>
@@ -205,13 +207,11 @@ export default class Player extends HTMLElement {
     if(crossFaderValue < 62) {
       if(this.playerID === "1") {
         this.audio.volume = (crossFaderValue / 64);
-        this.volumeRange.value = (((crossFaderValue / 2) / 64) - 1) * 127;
       }
     }
     else if(crossFaderValue > 67) {
       if(this.playerID === "0") {
         this.audio.volume = (((crossFaderValue / 64) - 1) * -1) + 1;
-        this.volumeRange.value = (((crossFaderValue / 2) / 64) - 1) * 127;
       }
     }
     else {
