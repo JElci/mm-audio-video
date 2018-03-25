@@ -1,6 +1,7 @@
 import audioManager from './audio-manager.js';
 import MIDI from './midi-controller.js';
 import renderer from './renderer.js';
+import './dash.all.min.js';
 
 let gainage;
 let audioCanvas;
@@ -18,7 +19,14 @@ export default class Player extends HTMLElement {
     shadowRoot.innerHTML = this.template();
 
     const url = this.getAttribute('url');
-    this.audio = new Audio(url);
+
+    (function(){
+      var urlAudio = url;
+      var player = dashjs.MediaPlayer().create();
+      player.initialize(shadowRoot.querySelector("#audio-track"), urlAudio, true);
+    })();
+
+    this.audio = new Audio(shadowRoot.querySelector("#audio-track").source);
     //midi-mapping
     this.midiIDVolume = parseInt(this.getAttribute("midi-id-volume"));
     this.midiIDPlayBack = parseInt(this.getAttribute("midi-id-playback"));
@@ -59,6 +67,7 @@ export default class Player extends HTMLElement {
     const html = String.raw;
     return html`
 	    <link href="./css/style.css" rel="stylesheet" type="text/css"/>
+      <audio id="audio-track"></audio>
       <div id="audio-player-wrapper">
         <div class="audio-progress-wrapper">
           <div id="audio-progress"></div>
@@ -225,8 +234,4 @@ function getAudioCanvas() {
   return audioCanvas;
 }
 
-function getMIDIController() {
-  return MIDIObject;
-}
-
-export {getAudioCanvas, getMIDIController};
+export {getAudioCanvas};

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- MPD file Generated with GPAC version 0.7.2-DEV-rev442-g508d7817-master  at 2018-03-25T19:28:24.111Z-->
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" minBufferTime="PT1.500S" type="static" mediaPresentationDuration="PT0H7M30.612S" maxSegmentDuration="PT0H0M5.016S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011,http://dashif.org/guidelines/dash264">
+ <ProgramInformation moreInformationURL="http://gpac.io">
+  <Title>BBB</Title>
+ </ProgramInformation>
+
+ <Period duration="PT0H7M30.612S">
+  <AdaptationSet segmentAlignment="true" lang="und" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+   <Representation id="1" mimeType="audio/mp4" codecs="mp4a.40.2" audioSamplingRate="44100" startWithSAP="1" bandwidth="131116">
+    <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+    <BaseURL>input_audio2_128k_dashinit.mp4</BaseURL>
+    <SegmentBase indexRangeExact="true" indexRange="878-2001">
+      <Initialization range="0-877"/>
+    </SegmentBase>
+   </Representation>
+  </AdaptationSet>
+ </Period>
+</MPD>

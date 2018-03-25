@@ -2,6 +2,8 @@ import Player from './audio-player.js';
 import Synth from './synth.js';
 import audioManager from './audio-manager.js';
 import VideoPlayer from './video-player.js';
+import MIDI from './midi-controller.js';
+
 
 export default class App extends HTMLElement {
   constructor() {
@@ -62,20 +64,19 @@ export default class App extends HTMLElement {
 			      </div>
 			      <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 1</h2>
-              <x-player id="sound" url="./audio/track1.mp3" midi-id-volume="48" midi-id-playback="49" player-id="0"></x-player>
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="48" midi-id-playback="49" player-id="0"></x-player>
 			      </div>
             <div class="audio_video_rechts">
               <h2 class="audio-track-headline">Track 2</h2>
-              <x-player id="sound" url="./audio/track2.mp3" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
+              <x-player id="sound" url="http://127.0.0.3:8080/data/audio/manifest_audio1.mpd" midi-id-volume="50" midi-id-playback="51" player-id="1"></x-player>
 			      </div>
 		      </div>
 	      </div>
         <div id="player-wrapper">
-          <!--  <x-video-player video1="http://localhost:300/video/B01.ogv" video2="http://localhost:300/video/FX03.ogv" controls="left"></x-video-player>
-          <x-video-player video1="./media/B01.ogv" video2="./media/FX03.ogv" controls="left"></x-video-player>-->
+          <x-video-player video="http://127.0.0.3:8080/data/video/manifest.mpd" controls="left"></x-video-player>
         </div>
 		<!-- Synthesizer BEGIN -->
-		<div>	
+		<div>
 			<x-synth></x-synth>
 		</div>
 		<!-- Synthesizer END -->
@@ -84,3 +85,18 @@ export default class App extends HTMLElement {
   }
 }
 customElements.define('x-app', App);
+
+
+function onMIDISuccess(midi) {
+  console.log("MIDI works!");
+
+  let access = midi;
+  let inputs = midi.inputs;
+
+  for (var input of inputs.values()) {
+    input.onmidimessage = MIDIMessage;
+  }
+}
+
+function onMIDIFailure(midi) {
+}

@@ -1,5 +1,6 @@
 import VideoThree from "./videoThree.js"
 import {getAudioCanvas} from "./audio-player.js";
+import './dash.all.min.js';
 
 export default class VideoPlayer extends HTMLElement {
   constructor() {
@@ -10,6 +11,12 @@ export default class VideoPlayer extends HTMLElement {
     const controls = this.getAttribute("controls");
     const shadowRoot = this.attachShadow({ mode: 'open' });
     shadowRoot.innerHTML = this.template(video1);
+
+    (function(){
+      var url = video1;
+      var player = dashjs.MediaPlayer().create();
+      player.initialize(shadowRoot.querySelector("#video-file"), url, true);
+    })();
 
     let videofilter = {
       grayscale : this.shadowRoot.querySelector("#filter-grayscale"),
@@ -69,9 +76,7 @@ export default class VideoPlayer extends HTMLElement {
   template(video) {
     const html = String.raw;
     return html`
-
 	    <link href="./css/style.css" rel="stylesheet" type="text/css"/>
-
       <div id="video-three"></div>
       <div class="canvas-video-wrapper">
         <video class="video" id="video-file" src="${video}" controls autoplay loop muted></video>
